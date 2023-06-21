@@ -122,22 +122,23 @@
         <input type="text" name="name_party" autocomplete="off">
         <br>
         <br>
-        <input type="submit" name="addParty" value="Ajouter une partie">
+        <input type="submit" id="btnRegistered_Party" name="addParty" value="Ajouter une partie">
     </form>
 
     <?php
     $bdd = new PDO('mysql:host=localhost; dbname=chessgame; charset=utf8;', 'root', '');
 
-    if(isset($_POST['addParty'])) {
+    if(!empty($_POST['name_party'])) {
+        if(isset($_POST['addParty'])) {
+            echo $_POST['coups'];
+            $name_party = htmlspecialchars($_POST['name_party']);
+            $ListeDeCoup = $_POST['coups'];
 
-        echo $_POST['coups'];
-        $name_party = htmlspecialchars($_POST['name_party']);
-        $ListeDeCoup = $_POST['coups'];
-
-        $insertUser = $bdd->prepare('INSERT INTO registered_party(name_party, user_id, list_coups)VALUES(?, ?, ?)');
-        $insertUser->execute(array($name_party, $ListeDeCoup, $id));
-    } else {
-        echo "<p style='color:red'>Veuillez saisir un nom à votre partie</p>";
+            $insertUser = $bdd->prepare('INSERT INTO registered_party(name_party, user_id)VALUES(?, ?)');
+            $insertUser->execute(array($name_party, $id));
+        } else {
+            echo "<p style='color:red'>Veuillez saisir un nom à votre partie</p>";
+        }
     }
     ?>
 
